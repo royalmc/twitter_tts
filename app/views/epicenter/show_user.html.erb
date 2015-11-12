@@ -4,25 +4,37 @@
 <p><%= @user.bio %></p>
 
 <div class="row">
-	<% @user.tweets.each do |tweet| %>
-		<div class="col-md-12">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<p><%= tweet.message %></p>
-				</div>
-			</div>
-		</div>
-	<% end %>
+    <% @user.tweets.each do |tweet| %>
+    <div class="col-mid-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p><%= tweet.message %></p>
+        </div>
+      </div>
+    </div>
+    <% end %>
 </div>
-
 <div>
-	<%= form_tag('/now_following') do %>
-		<span class="invisible">
-			<%= text_filed_tag :follow_id, @user.id %>
-		</span><br />
-		<%= submit_tag "Follow", class: "btn btn-primary" %>
-	<% end %>
-</div> 	
+<% if current_user.id != @user.id %>
+  <% if current_user.following.include?(@user.id) %>
+      <%= form_tag('/unfollow') do %>
+        <div class="invisible">
+          <%= number_field_tag :unfollow_id, @user.id %>
+        </div>
+        <%= submit_tag "Follow", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% else %>
+    <div>
+      <%= form_tag('/now_following') do %>
+        <div class="invisible">
+          <%= number_field_tag :follow_id, @user.id %>
+        </div>
+      <%= submit_tag "Follow", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
 
 
 
